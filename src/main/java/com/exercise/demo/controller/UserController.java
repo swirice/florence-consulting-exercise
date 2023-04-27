@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.exercise.demo.dto.UserDTO;
 import com.exercise.demo.model.UserFilter;
@@ -53,4 +54,8 @@ public class UserController {
 		return userService.updateUserByUuid(uuid, payload);
 	}
 
+	@PostMapping("/users/upload")
+	public List<UserDTO> importUserCsv(@RequestBody MultipartFile file) {
+		return userService.saveCsv(file);
+	}
 }

@@ -8,6 +8,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.exercise.demo.exception.NoDataFoundException;
 import com.exercise.demo.exception.NoResultsFoundException;
+import com.exercise.demo.exception.NotSupportedException;
+import com.exercise.demo.exception.ParsingException;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -20,6 +22,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(NoDataFoundException.class)
 	public ResponseEntity<Object> noDataFoundExceptionHandler(NoDataFoundException e) {
 		return new ResponseEntity<>(new NoDataFoundException(e.getMessage()), HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(ParsingException.class)
+	public ResponseEntity<Object> parsingExceptionHandler(ParsingException e) {
+		return new ResponseEntity<>(new ParsingException(e.getMessage()), HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(NotSupportedException.class)
+	public ResponseEntity<Object> notSupportedExceptionHandler(NotSupportedException e) {
+		return new ResponseEntity<>(new NotSupportedException(e.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 
 }

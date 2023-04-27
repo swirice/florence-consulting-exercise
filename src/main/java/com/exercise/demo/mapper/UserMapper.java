@@ -10,12 +10,12 @@ import com.exercise.demo.model.UserFilter;
 @Mapper
 public interface UserMapper {
 
-	static final UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+	public static final UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-	abstract User userDTOToUserEntity(UserDTO userDTO);
+	public abstract User dtoToEntity(UserDTO userDTO);
 
-	abstract UserDTO userEntityToUserDTO(User user);
+	public abstract UserDTO entityToDTO(User user);
 
-	abstract User userFilterToUserEntity(UserFilter userfilter);
+	public abstract User filterToEntity(UserFilter userfilter);
 
 }
