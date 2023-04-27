@@ -1,10 +1,10 @@
 package com.exercise.demo.exception;
 
-public class NotFoundException extends RuntimeException {
+public class NoDataFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public NotFoundException(String message) {
+	public NoDataFoundException(String message) {
 		super(message);
 	}
 

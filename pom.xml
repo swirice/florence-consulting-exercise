@@ -23,6 +23,7 @@
 		<mapstruct.version>1.5.4.Final</mapstruct.version>
 		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
 		<postgresql.version>42.6.0</postgresql.version>
+		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 	</properties>
 	
 	<dependencies>
@@ -71,6 +72,12 @@
 		    <artifactId>postgresql</artifactId>
 		    <version>${postgresql.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>${maven-compiler-plugin.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -79,7 +86,22 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>     
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
+	
 </project>

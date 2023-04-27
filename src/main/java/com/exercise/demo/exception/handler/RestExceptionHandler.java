@@ -6,20 +6,20 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.exercise.demo.exception.NoContentException;
-import com.exercise.demo.exception.NotFoundException;
+import com.exercise.demo.exception.NoDataFoundException;
+import com.exercise.demo.exception.NoResultsFoundException;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(NoContentException.class)
-	public ResponseEntity<Object> noContentExceptionHandler(NoContentException e) {
-		return new ResponseEntity<>(new NoContentException(e.getMessage()), HttpStatus.NO_CONTENT);
+	@ExceptionHandler(NoResultsFoundException.class)
+	public ResponseEntity<Object> noResultsFoundExceptionHandler(NoResultsFoundException e) {
+		return new ResponseEntity<>(new NoResultsFoundException(e.getMessage()), HttpStatus.NO_CONTENT);
 	}
 
-	@ExceptionHandler(NotFoundException.class)
-	public ResponseEntity<Object> notFoundExceptionHandler(NotFoundException e) {
-		return new ResponseEntity<>(new NotFoundException(e.getMessage()), HttpStatus.NOT_FOUND);
+	@ExceptionHandler(NoDataFoundException.class)
+	public ResponseEntity<Object> noDataFoundExceptionHandler(NoDataFoundException e) {
+		return new ResponseEntity<>(new NoDataFoundException(e.getMessage()), HttpStatus.NOT_FOUND);
 	}
 
 }
