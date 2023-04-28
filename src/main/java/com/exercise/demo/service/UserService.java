@@ -44,12 +44,12 @@ public class UserService {
 		List<User> users = userRepository.findAll(example);
 		if (users.isEmpty()) {
 			String message = String.format("No users found having following criteria = %s", filter);
-			log.warn("retrieveUsers() - {}", message);
+			log.warn("retrieveUsers(UserFilter) - {}", message);
 			throw new NoResultsFoundException(message);
 		}
 
 		List<UserDTO> output = users.stream().map(UserMapper.INSTANCE::entityToDTO).toList();
-		log.info("retrieveUsers() - {} users have been found", output.size());
+		log.info("retrieveUsers(UserFilter) - {} users have been found", output.size());
 
 		return output;
 

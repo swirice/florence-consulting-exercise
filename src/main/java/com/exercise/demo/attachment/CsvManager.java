@@ -12,6 +12,7 @@ import com.exercise.demo.exception.ParsingException;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.enums.CSVReaderNullFieldIndicator;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,8 @@ public class CsvManager {
 		try {
 			Reader reader = new InputStreamReader(file.getInputStream());
 			CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build(); // Skip the header
-			List<UserDTO> output = new CsvToBeanBuilder<UserDTO>(csvReader).withType(UserDTO.class).build().parse();
+			List<UserDTO> output = new CsvToBeanBuilder<UserDTO>(csvReader).withType(UserDTO.class)
+					.withFieldAsNull(CSVReaderNullFieldIndicator.BOTH).build().parse();
 			log.info("userCsvToList(MultipartFile) - File parsed successfully!");
 
 			return output;

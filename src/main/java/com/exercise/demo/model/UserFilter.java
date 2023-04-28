@@ -15,4 +15,6 @@ public class UserFilter {
 
 	private String lastName;
 
+	private Boolean active;
+
 }

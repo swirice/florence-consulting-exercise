@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +30,7 @@ public class UserController {
 	@GetMapping("/users")
 	public List<UserDTO> getUsers(@RequestParam(required = false, name = "firstName") String firstName,
 			@RequestParam(required = false, name = "lastName") String lastName) {
-		UserFilter filter = UserFilter.builder().firstName(firstName).lastName(lastName).build();
+		UserFilter filter = UserFilter.builder().firstName(firstName).lastName(lastName).active(Boolean.TRUE).build();
 		return userService.retrieveUsers(filter);
 	}
 
@@ -43,7 +44,7 @@ public class UserController {
 		userService.deleteUserByUuid(uuid);
 	}
 
-	@PostMapping("/users/")
+	@PostMapping("/users")
 	@ResponseStatus(HttpStatus.CREATED)
 	public UserDTO insertUser(@RequestBody UserDTO payload) {
 		return userService.createUser(payload);
@@ -54,8 +55,8 @@ public class UserController {
 		return userService.updateUserByUuid(uuid, payload);
 	}
 
-	@PostMapping("/users/upload")
-	public List<UserDTO> importUserCsv(@RequestBody MultipartFile file) {
+	@PostMapping(value = "/users/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public List<UserDTO> importUserCsv(@RequestParam("file") MultipartFile file) {
 		return userService.saveCsv(file);
 	}
 }
