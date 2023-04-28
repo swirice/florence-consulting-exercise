@@ -17,6 +17,7 @@ services:
     container_name: demo-microservice
     environment:
       - SERVER_PORT=8080
+      - DATASOURCE_HOST=postgres-db
       - DATABASE_NAME=demo
       - DATASOURCE_USERNAME=postgres
       - DATASOURCE_PASSWORD=Pa55word
