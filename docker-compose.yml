@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DATASOURCE_USERNAME}
+      - POSTGRES_PASSWORD=${DATASOURCE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    ports:
+      - ${DATASOURCE_PORT}:5432
+    volumes: 
+      - db:/var/lib/postgresql/data
+      - ./src/main/resources/sql/db_scripts.sql:/docker-entrypoint-initdb.d/db_scripts.sql
+  api:
+    container_name: demo-api
+    build:
+      context: ./
+    depends_on:
+      - db
+    ports:
+      - ${SERVER_PORT}:8080
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
+      - DATASOURCE_HOST=${DATASOURCE_HOST}
+      - DATASOURCE_PORT=${DATASOURCE_PORT}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATASOURCE_USERNAME=${DATASOURCE_USERNAME}
+      - DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD}
+    links:
+      - db
+    volumes:
+      - './:/src'
+volumes:
+  db:
+    driver: local
