@@ -1,37 +1,37 @@
 version: '3.8'
 services:
-  postgres-db:
+  db:
     image: postgres:latest
     container_name: postgres-db
-    volumes:
-      - ./db-data/:/var/lib/postgresql/data
-    ports:
-      - ${DATASOURCE_PORT}:5432
-    networks:
-      - common-net
+    restart: unless-stopped
     environment:
       - POSTGRES_USER=${DATASOURCE_USERNAME}
       - POSTGRES_PASSWORD=${DATASOURCE_PASSWORD}
       - POSTGRES_DB=${DATABASE_NAME}
-  demo-microservice:
-    build: .
-    container_name: demo-microservice
-    volumes:
-      - .:/src
+    ports:
+      - ${DATASOURCE_PORT}:5432
+    volumes: 
+      - db:/var/lib/postgresql/data
+      - ./src/main/resources/sql/db_scripts.sql:/docker-entrypoint-initdb.d/db_scripts.sql
+  api:
+    container_name: demo-api
+    build:
+      context: ./
+    depends_on:
+      - db
     ports:
       - ${SERVER_PORT}:8080
-    networks:
-      - common-net
-    links:
-      - postgres-db
     environment:
       - SERVER_PORT=${SERVER_PORT}
       - DATASOURCE_HOST=${DATASOURCE_HOST}
+      - DATASOURCE_PORT=${DATASOURCE_PORT}
       - DATABASE_NAME=${DATABASE_NAME}
       - DATASOURCE_USERNAME=${DATASOURCE_USERNAME}
       - DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD}
-      - DATASOURCE_PORT=${DATASOURCE_PORT}
+    links:
+      - db
+    volumes:
+      - './:/src'
 volumes:
-  db-data:
-networks:
-  common-net:
+  db:
+    driver: local
