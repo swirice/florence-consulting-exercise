@@ -1,31 +1,37 @@
 version: '3.8'
 services:
-
   postgres-db:
     image: postgres:latest
     container_name: postgres-db
     volumes:
-      - app-data:/var/lib/postgresql/data
+      - ./db-data/:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - ${DATASOURCE_PORT}:5432
+    networks:
+      - common-net
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=Pa55word
-
+      - POSTGRES_USER=${DATASOURCE_USERNAME}
+      - POSTGRES_PASSWORD=${DATASOURCE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
   demo-microservice:
     build: .
     container_name: demo-microservice
-    environment:
-      - SERVER_PORT=8080
-      - DATASOURCE_HOST=postgres-db
-      - DATABASE_NAME=demo
-      - DATASOURCE_USERNAME=postgres
-      - DATASOURCE_PASSWORD=Pa55word
+    volumes:
+      - .:/src
     ports:
-      - 8080:8080
+      - ${SERVER_PORT}:8080
+    networks:
+      - common-net
     links:
       - postgres-db
-
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
+      - DATASOURCE_HOST=${DATASOURCE_HOST}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATASOURCE_USERNAME=${DATASOURCE_USERNAME}
+      - DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD}
+      - DATASOURCE_PORT=${DATASOURCE_PORT}
 volumes:
-  app-data:
-    driver: local
+  db-data:
+networks:
+  common-net:
