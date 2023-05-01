@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.exercise.demo.attachment.CsvManager;
+import com.exercise.demo.dto.BulkDeleteDTO;
 import com.exercise.demo.dto.UserDTO;
 import com.exercise.demo.entity.User;
 import com.exercise.demo.exception.NoDataFoundException;
@@ -82,6 +83,15 @@ public class UserService {
 
 		userRepository.deleteById(uuid);
 		log.info("deleteUserByUuid(UUID) - User with UUID {} has been correctly deleted", uuid);
+
+	}
+
+	@Transactional
+	public void deleteUsers(BulkDeleteDTO payload) {
+
+		userRepository.deleteAllById(payload.getUuids());
+		log.info("deleteUsers(BulkDeleteDTO) - {} users (if existing) have been correctly deleted",
+				payload.getUuids().size());
 
 	}
 

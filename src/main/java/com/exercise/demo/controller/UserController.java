@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.exercise.demo.dto.BulkDeleteDTO;
 import com.exercise.demo.dto.UserDTO;
 import com.exercise.demo.model.UserFilter;
 import com.exercise.demo.service.UserService;
@@ -29,8 +30,9 @@ public class UserController {
 
 	@GetMapping("/users")
 	public List<UserDTO> getUsers(@RequestParam(required = false, name = "firstName") String firstName,
-			@RequestParam(required = false, name = "lastName") String lastName) {
-		UserFilter filter = UserFilter.builder().firstName(firstName).lastName(lastName).active(Boolean.TRUE).build();
+			@RequestParam(required = false, name = "lastName") String lastName,
+			@RequestParam(required = false, name = "active") Boolean active) {
+		UserFilter filter = UserFilter.builder().firstName(firstName).lastName(lastName).active(active).build();
 		return userService.retrieveUsers(filter);
 	}
 
@@ -42,6 +44,11 @@ public class UserController {
 	@DeleteMapping("/users/{uuid}")
 	public void deleteUserByUuid(@PathVariable("uuid") UUID uuid) {
 		userService.deleteUserByUuid(uuid);
+	}
+
+	@DeleteMapping("/users")
+	public void deleteUsersByUuid(@RequestBody BulkDeleteDTO payload) {
+		userService.deleteUsers(payload);
 	}
 
 	@PostMapping("/users")
