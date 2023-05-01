@@ -18,25 +18,25 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(NoResultsFoundException.class)
 	public ResponseEntity<Object> noResultsFoundExceptionHandler(NoResultsFoundException e) {
 		HttpStatus httpStatus = HttpStatus.NO_CONTENT;
-		return new ResponseEntity<>(new ErrorDTO(httpStatus, e.getMessage(), e.getLocalizedMessage()), httpStatus);
+		return new ResponseEntity<>(new ErrorDTO(httpStatus, e.getClass().toString(), e.getMessage()), httpStatus);
 	}
 
 	@ExceptionHandler(NoDataFoundException.class)
 	public ResponseEntity<Object> noDataFoundExceptionHandler(NoDataFoundException e) {
 		HttpStatus httpStatus = HttpStatus.NOT_FOUND;
-		return new ResponseEntity<>(new ErrorDTO(httpStatus, e.getMessage(), e.getLocalizedMessage()), httpStatus);
+		return new ResponseEntity<>(new ErrorDTO(httpStatus, e.getClass().toString(), e.getMessage()), httpStatus);
 	}
 
 	@ExceptionHandler(ParsingException.class)
 	public ResponseEntity<Object> parsingExceptionHandler(ParsingException e) {
 		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-		return new ResponseEntity<>(new ErrorDTO(httpStatus, e.getMessage(), e.getLocalizedMessage()), httpStatus);
+		return new ResponseEntity<>(new ErrorDTO(httpStatus, e.getClass().toString(), e.getMessage()), httpStatus);
 	}
 
 	@ExceptionHandler(NotSupportedException.class)
 	public ResponseEntity<Object> notSupportedExceptionHandler(NotSupportedException e) {
 		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-		return new ResponseEntity<>(new ErrorDTO(httpStatus, e.getMessage(), e.getLocalizedMessage()), httpStatus);
+		return new ResponseEntity<>(new ErrorDTO(httpStatus, e.getClass().toString(), e.getMessage()), httpStatus);
 	}
 
 }
