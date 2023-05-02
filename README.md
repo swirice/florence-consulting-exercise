@@ -2,11 +2,13 @@
 
 _Make sure to have installed the following tools in your local environment_
 
-* git
+* Git
 > https://gitforwindows.org/
-* docker
-> https://www.docker.com/products/docker-desktop/
-* insomnia
+* Maven
+> https://maven.apache.org/
+* Docker
+> https://www.docker.com/
+* Insomnia
 > https://insomnia.rest/
 
 ### How-to-use
